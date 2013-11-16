@@ -1,7 +1,11 @@
 require 'spec_helper'
 
 require File.expand_path(File.dirname(__FILE__) + '/../lib/record_locator_util')
-require File.expand_path(File.dirname(__FILE__) + '/../models/book')
+
+class Book < ActiveRecord::Base
+  extend RecordLocator
+  has_record_locator :publisher_id
+end
 
 describe 'RecordLocator' do
 
@@ -29,7 +33,7 @@ describe 'RecordLocator' do
   end
 
   it "Should return defined record locator filed" do
-    @book.record_locator_field.should == :publisher_id
+    @book.class.record_locator_by.should == :publisher_id
   end
 
   it "Should not have record locator field nil" do
